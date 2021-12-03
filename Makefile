@@ -1,5 +1,19 @@
-fft-optimized: fft.cpp
-	g++ fft.cpp -o fft_optimized
+CXX = g++
+
+FPIC = `python3 -m pybind11 --includes`
+INCLUDE = `python3-config --includes`
+CXXFLAGS = -O3 -Wall -shared -std=c++17 -fPIC -ldl -lpthread -lm $(INCLUDE)
+
+SOFILE = _fft${shell python3-config --extension-suffix}
+
+.PHONY: all
+all: ${SOFILE}
+
+${SOFILE}: fft.cpp
+	${CXX} ${FPIC} $< -o $@ ${CXXFLAGS}
+
+#test: ${SOFILE}
+#	python -m pytest ../validate.py
 
 clean:
-	rm -rf fft_optimized
+	rm -rf *.so __pycache__ .pytest_cache
