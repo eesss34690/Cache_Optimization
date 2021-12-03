@@ -4,9 +4,11 @@
 # include "dif_fft.h"	// DIF-FFT
 
 PYBIND11_MODULE(_fft, m) {
-  m.def("DFT", &DFT);
-  m.def("DIT_FFT_reordered", &DIT_FFT_reordered);
-  m.def("DIF_FFT_reordered", &DIF_FFT_reordered);
+	m.def("initialize", &initialize);
+	m.def("DFT", &DFT);
+	m.def("DIT_FFT_reordered", &DIT_FFT_reordered);
+	m.def("DIF_FFT_reordered", &DIF_FFT_reordered);
+	m.def("printing", &printing);
 }
 
 /*

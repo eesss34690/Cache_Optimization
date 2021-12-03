@@ -28,10 +28,23 @@ typedef struct Complex
 } complex;
 
 
+complex* initialize(vector<double> real, vector<double> img);
 complex* append_seq(complex seq_1[], complex seq_2[], int N);
 complex* reorder_seq(complex input_seq[], int N);
 complex* Calc_WN(int N);
+void printing (complex* val);
 int reverse_bit(int value, int N);
+
+//initialize
+complex* initialize(vector<double> real, vector<double> img)
+{
+	complex* seq = new complex[real.size()];
+	for (int i = 0; i< real.size(); i++)
+	{
+		seq[i].re = real[i];
+		seq[i].im = img[i];
+	}
+}
 
 // Multiplier
 complex ComplexMul(complex c1, complex c2)
@@ -138,6 +151,9 @@ complex* Calc_WN(int N) {
 	return WN;
 }
 
-
-
-
+void printing(complex* val)
+{
+	for (int i = 0; i < N; ++i) {
+		cout << "\tX[" << i << "] = " << val[i].re << " + j*" << val[i].im << endl;
+	}
+}
