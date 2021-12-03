@@ -5,12 +5,13 @@
 # include <cmath>
 # include <iostream>
 # include <ctime>
+# include <fstream>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/operators.h>
 
-# define PI 3.1415926
+# define PI 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954930381964428810975665933446128475648233786783165271201909145648566923460348610454326648213393607260249141273724587006606315588174881520920962829254091715364367892590360011330530548820466521384146951941511609433057270365759591953092186117381932611793105118548074462379962749567351885752724891227938183011949129833673362440656643086021394946395224737190702179860943702770539217176293176752384674818467669405132000568127145263560827785771342757789609173637178721468440901224953430146549585371050792279689258923542019956112129021960864034418159813629774771309960518707211349999998372978049951059731732816096318595024459455346908302642522308253344685035261931188171010003137838752886587533208381420617177669147303598253490428755468731159562863882353787593751957781857780532171226806613 
 using namespace std;
 
 typedef struct Complex
@@ -29,10 +30,12 @@ typedef struct Complex
 
 
 complex* initialize(vector<double> real, vector<double> img);
+vector<double> back_vec(complex* ans, int N);
+vector<double> back_img(complex* ans, int N);
 complex* append_seq(complex seq_1[], complex seq_2[], int N);
 complex* reorder_seq(complex input_seq[], int N);
 complex* Calc_WN(int N);
-void printing (complex* val);
+void printing (complex* val, int N);
 int reverse_bit(int value, int N);
 
 //initialize
@@ -44,7 +47,29 @@ complex* initialize(vector<double> real, vector<double> img)
 		seq[i].re = real[i];
 		seq[i].im = img[i];
 	}
+	return seq;
 }
+
+vector<double> back_real(complex* ans, int N)
+{
+	vector<double> real(N);
+	for (int i = 0; i< N; i++)
+	{
+		real[i] = ans[i].re;
+	}
+	return real;
+}
+
+vector<double> back_img(complex* ans, int N)
+{
+	vector<double> real(N);
+	for (int i = 0; i< N; i++)
+	{
+		real[i] = ans[i].im;
+	}
+	return real;
+}
+
 
 // Multiplier
 complex ComplexMul(complex c1, complex c2)
@@ -151,9 +176,11 @@ complex* Calc_WN(int N) {
 	return WN;
 }
 
-void printing(complex* val)
+void printing(complex* val, int N)
 {
+	ofstream myfile;
+	myfile.open ("performance.txt", ios::out | ios::app);
 	for (int i = 0; i < N; ++i) {
-		cout << "\tX[" << i << "] = " << val[i].re << " + j*" << val[i].im << endl;
+		myfile << "\tX[" << i << "] = " << val[i].re << " + j*" << val[i].im << endl;
 	}
 }

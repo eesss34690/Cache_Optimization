@@ -3,47 +3,68 @@
 import numpy as np
 import random
 import time
+import cmath
+from scipy.fftpack import fft
 import _fft
 
 from pytest import approx
 
 class TestFFT:
         
-    def write_file(self, naive, tile, mkl):
-        with open('performance.txt', 'w') as f:
-            f.write('naive time: '+ str(naive) + " seconds\n")
-            f.write('tile: '+ str(tile) + " seconds\n")
-            f.write('mkl: '+ str(mkl) + " seconds\n")
-            f.write('tile speeds up compared to naive: '+ str(naive / tile) + " times\n")
-            f.write('MKL speeds up compared to naive: '+ str(naive / mkl) + " times\n")
-
     def test_validate(self):
         size_ = [1024, 2048, 4096, 8192, 16384, 32768, 65536]
         for i in size_:
             _m1 = np.random.rand(i)
             _m2 = np.random.rand(i)
             comp = _fft.initialize(_m1, _m2)
-
-            print("DIT-FFT " + i + " elemets: ")
+            py_comp = [complex(_m1[j], _m2[j]) for j in range(i)]
+            with open('performance.txt', 'w') as f:
+                f.write("DIT-FFT " + str(i) + " elemets: \n")
             start = time.perf_counter()
             dit = _fft.DIT_FFT_reordered(comp, i)
             dit_time = time.perf_counter() - start
-            _fft.printing(dit)
-            print("Time... " + dit_time)
+            #_fft.printing(dit, i)
+            with open('performance.txt', 'a') as f:
+                f.write("Time... " + str(dit_time) + "\n")
 
-            print("DIF-FFT " + i + " elemets: ")
+                f.write("DIF-FFT " + str(i) + " elemets: \n")
             start = time.perf_counter()
             dif = _fft.DIF_FFT_reordered(comp, i)
             dif_time = time.perf_counter() - start
-            _fft.printing(dif)
-            print("Time... " + dif_time)
+            #_fft.printing(dif, i)
+            with open('performance.txt', 'a') as f:
+                f.write("Time... " + str(dif_time) + "\n")
             
-            print("DFT " + i + " elemets: ")
+                f.write("DFT " + str(i) + " elemets: \n")
             start = time.perf_counter()
             dft = _fft.DFT(comp, i)
             dft_time = time.perf_counter() - start
-            _fft.printing(dft)
-            print("Time... " + dft_time)
+            #_fft.printing(dft, i)
+            with open('performance.txt', 'a') as f:
+                f.write("Time... " + str(dft_time) + "\n")
+
+            ans = fft(py_comp)
+            with open('performance.txt', 'a') as f:
+                f.write("\nAns:\n")
+                f.write(str(ans))
+            
+            real = _fft.back_real(dit, i)
+            img = _fft.back_img(dit, i)
+            for j in range(i):
+                assert ans[j].real == approx(real[j])
+                assert ans[j].imag == approx(img[j])
+
+            real = _fft.back_real(dif, i)
+            img = _fft.back_img(dif, i)
+            for j in range(i):
+                assert ans[j].real == approx(real[j])
+                assert ans[j].imag == approx(img[j])
+
+            real = _fft.back_real(dft, i)
+            img = _fft.back_img(dft, i)
+            for j in range(i):
+                assert ans[j].real == approx(real[j])
+                assert ans[j].imag == approx(img[j])
             """
             for i in range(p):
                 for j in range(r):

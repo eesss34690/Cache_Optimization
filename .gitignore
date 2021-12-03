@@ -1,3 +1,7 @@
 fft_optimized
 .git
 .vscode
+*.so
+__pycache__
+.pytest_cache
+performance.txt

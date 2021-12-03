@@ -5,10 +5,15 @@
 
 PYBIND11_MODULE(_fft, m) {
 	m.def("initialize", &initialize);
+	m.def("back_real", &back_real);
+	m.def("back_img", &back_img);
 	m.def("DFT", &DFT);
 	m.def("DIT_FFT_reordered", &DIT_FFT_reordered);
 	m.def("DIF_FFT_reordered", &DIF_FFT_reordered);
 	m.def("printing", &printing);
+	pybind11::class_<Complex>(m, "Complex")
+		.def_readonly("re", &Complex::re)
+		.def_readonly("im", &Complex::im);
 }
 
 /*

@@ -12,8 +12,8 @@ all: ${SOFILE}
 ${SOFILE}: fft.cpp
 	${CXX} ${FPIC} $< -o $@ ${CXXFLAGS}
 
-#test: ${SOFILE}
-#	python -m pytest ../validate.py
+test: ${SOFILE}
+	python -m pytest test_fft.py
 
 clean:
-	rm -rf *.so __pycache__ .pytest_cache
+	rm -rf *.so __pycache__ .pytest_cache performance.txt
