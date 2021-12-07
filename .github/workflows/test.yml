@@ -23,11 +23,12 @@ jobs:
     - name: dependency (ubuntu)
       run: |
         sudo apt-get -q update
-        sudo apt -y install \
-            curl build-essential make libc6-dev \ 
+        sudo apt-get -qy install \
+            curl build-essential make cmake libc6-dev \
             gcc g++ gfortran \
             python3 python3-pip python3-pytest \
-            python3-numpy python3-scipy python3-pandas python3-matplotlib
+            python3-numpy python3-scipy python3-pandas python3-matplotlib \
+            jupyter
         cd /usr/bin ; sudo ln -sf py.test-3 py.test
     - name: test
       run: |
