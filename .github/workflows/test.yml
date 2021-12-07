@@ -1,5 +1,8 @@
 name: Workflow Name
-on: [push, pull_request]
+on: 
+  push:
+    branches:
+      - master
 
   build:
 
