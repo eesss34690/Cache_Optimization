@@ -30,7 +30,7 @@ typedef struct Complex
 
 
 complex* initialize(vector<double> real, vector<double> img);
-vector<double> back_vec(complex* ans, int N);
+vector<double> back_real(complex* ans, int N);
 vector<double> back_img(complex* ans, int N);
 complex* append_seq(complex seq_1[], complex seq_2[], int N);
 complex* reorder_seq(complex input_seq[], int N);
@@ -102,12 +102,7 @@ complex ReverseComplex(complex c)
 	return c;
 }
 
-
-// Other func
-
-
-/********************************************************************/
-// Append [seq_1] & [seq_2] to [seq_1,seq_2]
+// [seq_1], [seq_2] --> [seq_1,seq_2]
 complex* append_seq(complex seq_1[], complex seq_2[], int N) {
 	complex* total_seq = new complex[N*2];
 	for (int i = 0; i < N; i++) {
@@ -119,50 +114,31 @@ complex* append_seq(complex seq_1[], complex seq_2[], int N) {
 	return total_seq;
 }
 
-
-/********************************************************************/
 // Reorder the input_seq to an order
 complex* reorder_seq(complex input_seq[], int N) {
-
-	cout << "Reorder the sequence ... \t";
-
 	complex* reordered_seq = new complex[N];
 	for (int i = 0; i < N; ++i)
 	{
 		int k = reverse_bit(i, log2(N));
 		reordered_seq[k] = input_seq[i];
 	}
-
 	return reordered_seq;
 }
 
-
-/********************************************************************/
 // Reverse Bit
-	// input: 
-		// a decimal num, 
-		// N-based reverse method
-	// output: a decimal num
 int reverse_bit(int value, int N) {
-
 	int ret = 0;
 	int i = 0;
-
 	while (i < N) {
 		ret <<= 1;
 		ret |= (value>>i) & 1;
 		i++;
 	}
-
 	return ret;
 }
 
-
-/********************************************************************/
 // Calc WN[], with N = input_N
 complex* Calc_WN(int N) {
-
-	cout << "Calculating WN[] of N = " << N << " ... \t";
 	complex* WN = new complex[N];
 
 	complex WN_unit; WN_unit.re = cos(2*PI/N); WN_unit.im = -sin(2*PI/N);

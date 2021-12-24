@@ -43,7 +43,6 @@ class TestFFT:
             _m1 = np.random.rand(i)
             _m2 = np.random.rand(i)
             comp = _fft.initialize(_m1, _m2)
-            py_comp = [complex(_m1[j], _m2[j]) for j in range(i)]
             with open('performance.txt', 'a') as f:
                 f.write("\n\nDIT-FFT " + str(i) + " elemets: \n")
             start = time.perf_counter()
@@ -60,7 +59,6 @@ class TestFFT:
                 f.write("Time... " + str(dif_time) + "\n")
             
             start = time.perf_counter()
-            ans = fft(py_comp)
             scipy_time = time.perf_counter() - start
             with open('performance.txt', 'a') as f:
                 f.write("Time... " + str(scipy_time) + "\n")

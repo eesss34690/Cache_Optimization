@@ -1,7 +1,6 @@
 complex* DIT_FFT_reordered(complex input_seq[], int N);
 complex* DIT_FFT(complex input_seq[], int N, complex WN[], int recur_time_count);
 
-/********************************************************************/
 // DIT-FFT
 	// input_seq[]: 
 	// N: size of input_seq
@@ -24,8 +23,6 @@ complex* DIT_FFT_reordered(complex input_seq[], int N) {
 }
 complex* DIT_FFT(complex input_seq[], int N, complex WN[], int recur_time_count) {
 
-	// cout << "\tDIF_FFT executed!\n"; // for validation
-	// output seq
 	complex* return_seq = new complex[N];
 
 	if ( N != 2 ) {
@@ -67,13 +64,11 @@ complex* DIT_FFT(complex input_seq[], int N, complex WN[], int recur_time_count)
 
 	} else if ( N == 2 ) { // Smallest Butterfly Unit
 
-		// cout << "\tDIT_FFT N==2 triggered!\n"; // for validation
 		return_seq[0] = ComplexAdd(input_seq[0], ComplexMul(input_seq[1], WN[0]) );
 		return_seq[1] = ComplexAdd(input_seq[0], ComplexMul( ReverseComplex(input_seq[1]), WN[0] ) );
 		return return_seq;
 	
 	}
 
-	// return [return_seq] # unordered
 	return return_seq;
 }
