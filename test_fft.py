@@ -57,8 +57,13 @@ class TestFFT:
             dif_time = time.perf_counter() - start
             with open('performance.txt', 'a') as f:
                 f.write("Time... " + str(dif_time) + "\n")
-            
+            start = time.perf_counter()
+            dft = _fft.DFT(comp, i)
+            dft_time = time.perf_counter() - start
+            with open('performance.txt', 'a') as f:
+                f.write("DFT\nTime: " + str(dft_time)+ "\n")
+
             start = time.perf_counter()
             scipy_time = time.perf_counter() - start
             with open('performance.txt', 'a') as f:
-                f.write("Time... " + str(scipy_time) + "\n")
+                f.write("Scipy Time... " + str(scipy_time) + "\n")
